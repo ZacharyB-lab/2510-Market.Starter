@@ -105,6 +105,4 @@ If a valid token is not provided, immediately send a 401 Unauthorized error.
 
 ## Submission
 
-**Make a pull request** from your fork into the main branch of this starter repo.
-The title of your pull request should include your full name. Submit the link
-to your _pull request_.
+Submit the link to your github repo.
