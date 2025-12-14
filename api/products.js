@@ -14,12 +14,17 @@ router.get(
 );
 
 router.get(
-  "products/:id"
-
-  /* Need to determine conditional statement 
-    return res.status(404).send("Invalid product id.");
+  "products/:id",
+async (req, res) => {
+    const {id} = req.params;
+    const product = products.find(p => p.id === Number(id))  
+    /* Need to determine conditional statement 
+    if (!product) {
+        return res.status(404).send("Invalid product id.");
+    }
     */
-);
+   res.send(product);
+});
 
 router.get(
   "products/:id/orders",
