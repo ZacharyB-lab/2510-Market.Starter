@@ -9,7 +9,6 @@ app.use(express.json());
 
 app.use(getUserFromToken);
 
-app.use("/tasks", tasksRouter);
 app.use("/users", usersRouter);
 
 app.use((err, req, res, next) => {
@@ -26,5 +25,5 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send("Sorry! Something went wrong.");
+  res.status(500).send("Error! Something's wrong.");
 });

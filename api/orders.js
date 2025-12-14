@@ -20,8 +20,12 @@ router.post(
 
 router.get(
     "/orders",
-//res.status(201).send(orders)
-   if (!token) return res.status(401).send("Unauthorized Error")
+    //Get all orders
+    async (req, res) => {
+        if (!token) return res.status(401).send("Unauthorized Error")
+        //res.status(201).send(orders)
+        res.send(orders);
+}
 );
 
 router.get(
