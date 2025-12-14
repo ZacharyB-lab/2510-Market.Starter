@@ -12,7 +12,10 @@ router.post(
   async (req, res) => {
     const { username, password } = req.body;
     const user = await createUser(username, password);
-
+    if (!username || !password)
+      return res
+        .status(400)
+        .send("Please fill out both username and password field");
     const token = createToken({ id: user.id });
     res.status(201).send(token);
   }
@@ -25,7 +28,10 @@ router.post(
     const { username, password } = req.body;
     const user = await getUserByUsernameAndPassword(username, password);
     if (!user) return res.status(401).send("Invalid username or password.");
-
+    if (!username || !password)
+      return res
+        .status(400)
+        .send("Please fill out both username and password field");
     const token = createToken({ id: user.id });
     res.send(token);
   }
