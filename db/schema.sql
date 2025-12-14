@@ -1,29 +1,34 @@
 -- TODO
-DROP TABLE IF EXISTS tasks;
-DROP TABLE IF EXISTS users;
+table users {
+  id serial [pk]
+  username text [unique, not null]
+  password text [not null]
+}
 
-CREATE TABLE users (
-  id serial PRIMARY KEY,
-  username text UNIQUE NOT NULL,
-  password text NOT NULL
-);
+table orders {
+  id serial [pk]
+  date date [not null]
+  note text
+  user_id int [not null]
+}
 
-CREATE TABLE orders (
-  id serial PRIMARY KEY,
-  date date NOT NULL,
-  note text,
-  user_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE
-);
+table orders_products {
+  order_id int [not null]
+  product_id int [not null]
+  quantity int [not null]
 
-CREATE TABLE orders_products (
-orders_id int PRIMARY KEY,
-product_id int PRIMARY KEY,
-quantity int NOT NULL
-);
+  indexes {
+    (order_id, product_id) [pk]
+  }
+}
 
-CREATE TABLE products (
-  id serial PRIMARY KEY,
-  title text NOT NULL,
-  description text NOT NULL,
-  price decimal NOT NULL
-);
+table products {
+  id serial [pk]
+  title text [not null]
+  description text [not null]
+  price decimal [not null]
+}
+
+Ref: users.id < orders.user_id [delete: cascade]
+Ref: orders.id < orders_products.order_id [delete: cascade]
+Ref: products.id < orders_products.product_id [delete: cascade]
