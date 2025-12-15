@@ -14,6 +14,7 @@ router.post(
   async (req, res) => {
     const { date } = req.body;
     if (!date) return res.status(400).send("No Date inputed.");
+    if (!authenticate) return res.status(401).send("Unauthorized Error");
 
     const newOrder = {
       id: orders.length + 1,
@@ -32,6 +33,7 @@ router.get(
   async (req, res) => {
     //res.status(201).send(orders)
     res.send(orders);
+    if (!authenticate) return res.status(401).send("Unauthorized Error");
   }
 );
 
@@ -46,6 +48,7 @@ router.get("/orders/:id", authenticate, async (req, res) => {
   if (order.userId !== req.user.id) {
     return res.status(403).send("Wrong user.");
   }
+  if (!authenticate) return res.status(401).send("Unauthorized Error");
 
   res.send(order);
 });
@@ -68,6 +71,7 @@ router.post("/orders/:id/products", authenticate, async (req, res) => {
   if (!productId) {
     return res.status(400).send("No product with that id");
   }
+  if (!authenticate) return res.status(401).send("Unauthorized Error");
 });
 
 router.get("/orders/:id/products", authenticate, async (req, res) => {
@@ -90,5 +94,7 @@ router.get("/orders/:id/products", authenticate, async (req, res) => {
         quantity: op.quantity,
       };
     });*/
+  if (!authenticate) return res.status(401).send("Unauthorized Error");
+
   res.send(productsInOrder);
 });

@@ -30,4 +30,11 @@ router.get("products/:id/orders", authenticate, (req, res) => {
   /* Need to determine conditional statement */
   if (!product) return res.status(404).send("Invalid product id.");
   if (!authenticate) return res.status(401).send("Unauthorized Error");
+
+  const userOrders = orders.filter(
+    (order) =>
+      order.userId === req.user.id &&
+      order.products.some((p) => p.productId === Number(id))
+  );
+  res.send(userOrders);
 });
