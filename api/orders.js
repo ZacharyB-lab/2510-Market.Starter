@@ -51,13 +51,17 @@ router.get("/orders/:id", authenticate, async (req, res) => {
 });
 
 router.post("/orders/:id/products", authenticate, async (req, res) => {
+  const { id } = req.params;
+  const { productId, quantity } = req.body;
+
+  const order = orders.find((o) => o.id === Number(id));
   if (!order) {
     return res.status(404).send("There is no order for that product.");
   }
   if (order.userId !== req.user.id) {
     return res.status(403).send("Wrong user.");
   }
-  if (!productId && !quantity) {
+  if (!productId || !quantity) {
     return res.status(400).send("Please put both product id and quantity");
   }
 
@@ -69,10 +73,22 @@ router.post("/orders/:id/products", authenticate, async (req, res) => {
 router.get("/orders/:id/products", authenticate, async (req, res) => {
   const { id } = req.params;
 
+  const order = orders.find((o) => o.id === Number(id));
   if (!order) {
     return res.status(404).send("There is no order for that product.");
   }
   if (order.userId !== req.user.id) {
     return res.status(403).send("Wrong user.");
   }
+
+  /*const productsInOrder = orders_products
+    .filter((op) => op.orderId === order.id)
+    .map((op) => {
+      const product = products.find((p) => p.id === op.productId);
+      return {
+        ...product,
+        quantity: op.quantity,
+      };
+    });*/
+  res.send(productsInOrder);
 });
